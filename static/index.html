@@ -9,9 +9,35 @@
 </head>
 <body>
     <div class="main">
-        <p id="para">Hello world </p>
-        <p id="area">This is HTML Page </p>
+            <form class="form">
+                <label>User name</label>
+                <input id="username" type="text"/>
+                <label>Password</label>
+                <input id="password" type="password"/>
+                <button id="button">Submit</button>
+            </form>
     </div>
-    <script src="./bundle.js"></script>
+    <script>
+        function authenticate(authparams){
+            fetch("/login",{
+                headers:{
+                "Content-Type":"application/json"
+                },
+                method:"post",
+            body:JSON.stringify({
+            ...authparams
+            })
+            }).then(x=> x.text()).then(x=>console.log(x));
+        }
+        
+        
+        document.querySelector("#button").addEventListener('click', (e)=>{
+            e.preventDefault();
+            const userName = document.querySelector("input[type=text]").value;
+            const password= document.querySelector("input[type=password]").value;
+            console.log(userName,password);
+            authenticate({userName,password});
+        })
+    </script>
 </body>
 </html>
